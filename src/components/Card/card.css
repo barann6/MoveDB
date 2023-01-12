@@ -1,0 +1,117 @@
+.card {
+  border-radius: 0;
+}
+
+.card__title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.card__vote-average {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  border: solid 2px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.card__vote-average_low {
+  border-color: #e90000;
+}
+
+.card__vote-average_medium {
+  border-color: #e97e00;
+}
+
+.card__vote-average_high {
+  border-color: #e9d100;
+}
+
+.card__vote-average_very-high {
+  border-color: #66e900;
+}
+
+.card__date {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  display: block;
+}
+
+.card__genre-tag {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  margin-bottom: 8px;
+}
+
+.card__overview {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  display: block;
+}
+
+.card__rate {
+  font-size: 15px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/****************************************/
+
+.card {
+  padding: 6px 10px;
+}
+
+.card__title {
+  margin: 0 auto 0 12px;
+}
+
+.card__date {
+  margin: 0 auto 8px 12px;
+}
+
+.card__genres {
+  margin: 0 auto 8px 12px;
+}
+
+.card__overview {
+  margin-top: 10px;
+}
+
+@media (min-width: 1440px) {
+  .card {
+    padding: 0;
+    padding-right: 8px;
+  }
+
+  .card__title {
+    margin: 12px auto 0 20px;
+  }
+
+  .card__date {
+    margin: 0 auto 8px 20px;
+  }
+
+  .card__genres {
+    margin: 0 auto 0 20px;
+  }
+
+  .card__overview {
+    margin: 0 auto 8px 20px;
+  }
+
+  .card__rate {
+    margin: 0 auto 8px 20px;
+  }
+}
