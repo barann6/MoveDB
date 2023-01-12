@@ -77,7 +77,7 @@ const _Card = (prop) => {
   const overview = (
     <Text className="card__overview">
       {truncate(prop.overview, {
-        length: 205,
+        length: 200,
         separator: " ",
         omission: " ...",
       })}

@@ -50,7 +50,7 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .card__overview {
@@ -82,7 +82,7 @@
 }
 
 .card__genres {
-  margin: 0 auto 8px 12px;
+  margin: 0 auto 4px 12px;
 }
 
 .card__overview {
@@ -104,7 +104,7 @@
   }
 
   .card__genres {
-    margin: 0 auto 0 20px;
+    margin: 0 auto 4px 20px;
   }
 
   .card__overview {
