@@ -2,14 +2,38 @@
   border-radius: 0;
 }
 
+.card > * {
+  display: grid;
+  padding: 6px 10px !important;
+  grid-template-columns: 62px repeat(2, auto);
+  grid-template-areas:
+    'poster title vote'
+    'poster date date'
+    'poster genres genres'
+    'overview overview overview'
+    'rate rate rate';
+}
+
+.card > *::after,
+.card > *::before {
+  display: unset !important;
+  content: none !important;
+}
+
+.card__poster {
+  grid-area: poster;
+  width: 62px;
+  height: 93px;
+}
+
 .card__title {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 28px;
+  grid-area: title;
+  margin: 0 13px 7px;
 }
 
 .card__vote-average {
+  grid-area: vote;
+  display: inline-block;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -17,8 +41,9 @@
   border: solid 2px;
   min-width: 30px;
   height: 30px;
-  border-radius: 50%;
   text-align: center;
+  border-radius: 50%;
+  justify-self: end;
 }
 
 .card__vote-average_low {
@@ -38,80 +63,78 @@
 }
 
 .card__date {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 22px;
-  display: block;
+  grid-area: date;
+  margin: 0 13px 7px;
+}
+
+.card__genres {
+  grid-area: genres;
+  margin: 0 13px 3px;
 }
 
 .card__genre-tag {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 15px;
   margin-bottom: 4px;
 }
 
 .card__overview {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 22px;
+  grid-area: overview;
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card__rate {
+  grid-area: rate;
   font-size: 15px;
-  display: flex;
-  flex-wrap: nowrap;
+  display: block;
+  justify-self: end;
 }
 
-/****************************************/
+@media (min-width: 1200px) {
+  .card > * {
+    padding: 0 !important;
+    grid-template-rows: repeat(3, min-content) auto min-content;
+    grid-template-columns: 185px repeat(2, auto);
+    grid-template-areas:
+      'poster title vote'
+      'poster date date'
+      'poster genres genres'
+      'poster overview overview'
+      'poster rate rate';
+    height: 278px;
+  }
 
-.card {
-  padding: 6px 10px;
-}
-
-.card__title {
-  margin: 0 auto 0 12px;
-}
-
-.card__date {
-  margin: 0 auto 8px 12px;
-}
-
-.card__genres {
-  margin: 0 auto 4px 12px;
-}
-
-.card__overview {
-  margin-top: 10px;
-}
-
-@media (min-width: 1440px) {
-  .card {
-    padding: 0;
-    padding-right: 8px;
+  .card__poster {
+    width: 185px;
+    height: 278px;
   }
 
   .card__title {
-    margin: 12px auto 0 20px;
+    margin: 12px 0 0 20px;
+    margin-bottom: 0 !important;
+  }
+
+  .card__vote-average {
+    margin: 12px 9px 0 0;
   }
 
   .card__date {
-    margin: 0 auto 8px 20px;
+    margin: 0 20px 0;
   }
 
   .card__genres {
-    margin: 0 auto 4px 20px;
+    margin: 0 20px 0;
   }
 
   .card__overview {
-    margin: 0 auto 8px 20px;
+    margin: 0 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .card__rate {
-    margin: 0 auto 8px 20px;
+    font-size: 15px;
+    justify-self: start;
+    margin-left: 20px;
   }
 }

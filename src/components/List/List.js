@@ -1,22 +1,20 @@
-import { useState, useEffect, Fragment } from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import { List, Input } from "antd";
-import { debounce } from "lodash";
+import { useState, useEffect, Fragment } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { List, Input } from 'antd';
+import { debounce } from 'lodash';
 
-import MDBService from "../../service/MDBService";
-import Alert from "../Alert";
-import Card from "../Card";
+import MDBService from '../../service/MDBService';
+import Alert from '../Alert';
+import Card from '../Card';
 
-import "./list.css";
+import './list.css';
 
 const _List = ({ genres }) => {
   //-------------------------------------------------
   const [loading, setLoading] = useState(false);
   const [respondError, setRespondError] = useState(false);
-
-  const [searchField, setSearchField] = useState("");
+  const [searchField, setSearchField] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -28,7 +26,7 @@ const _List = ({ genres }) => {
         setLoading(false);
       } else {
         MDBService.getMovies(searchField, currentPage)
-          .then((json) => setData(json))
+          .then((response) => setData(response))
           .catch(() => {
             setRespondError(true);
             setData([]);
@@ -56,7 +54,12 @@ const _List = ({ genres }) => {
       size="large"
       grid={{
         gutter: 36,
-        column: window.innerWidth >= 1440 ? 2 : 1,
+        xs: 1,
+        sm: 1,
+        md: 1,
+        lg: 1,
+        xl: 2,
+        xxl: 2,
       }}
       //-------------------------------------------------
       header={
@@ -92,8 +95,8 @@ const _List = ({ genres }) => {
       //-------------------------------------------------
       loading={{
         spinning: loading,
-        size: "large",
-        className: "list_spin",
+        size: 'large',
+        className: 'list_spin',
       }}
       //-------------------------------------------------
       dataSource={data.results}
@@ -114,7 +117,7 @@ const _List = ({ genres }) => {
       )}
       //-------------------------------------------------
       pagination={{
-        className: "list__pagination",
+        className: 'list__pagination',
         defaultPageSize: 20,
         total: data.total_results,
         current: currentPage,

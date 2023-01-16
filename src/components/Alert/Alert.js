@@ -1,13 +1,13 @@
-import { Alert } from "antd";
+import { Alert } from 'antd';
 
-import "./alert.css";
+import './alert.css';
 
-const _Alert = ({ сonnectionError, respondError }) => {
+const _Alert = ({ connectionError, respondError }) => {
   const description = () => {
-    if (сonnectionError) return "No internet connection.";
-    if (respondError) return "Server not responding.";
+    if (connectionError) return 'No internet connection.';
+    if (respondError) return 'Server not responding.';
   };
-  if (сonnectionError || respondError)
+  if (connectionError || respondError)
     return (
       <Alert
         message="Error"

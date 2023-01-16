@@ -12,23 +12,22 @@ const _RatedList = ({ genres, activeTabChanged }) => {
   //-------------------------------------------------
   const [loading, setLoading] = useState(false);
   const [respondError, setRespondError] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
-  //-------------------------------------------------
-  const context = useContext(Context);
   const [data, setData] = useState([]);
+  
+  const context = useContext(Context);
 
   useEffect(() => {
     setRespondError(false);
     setLoading(true);
-    MDBService.getRatedMovies(context)
-      .then((json) => setData(json))
+    MDBService.getRatedMovies(context, currentPage)
+      .then((response) => setData(response))
       .catch(() => {
         setRespondError(true);
         setData([]);
       })
       .finally(() => setLoading(false));
-  }, [context, activeTabChanged]);
+  }, [context, activeTabChanged, currentPage]);
   //-------------------------------------------------
   const genresByIds = (ids) =>
     ids
