@@ -1,88 +1,109 @@
 export default class MDBService {
-  static #myApiKey = "api_key=dc70480f02792da99e54ab45abbfc5eb";
+  static #baseURL = 'https://api.themoviedb.org/3/';
 
-  static getGenres = async function () {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/genre/movie/list?${this.#myApiKey}`
-    );
+  static #baseRequestIMDB = async function (additionalUrl, payload = {}) {
+    const response = await fetch(`${this.#baseURL}${additionalUrl}`, payload);
     if (!response.ok) {
-      throw new Error("getGenres error");
+      console.log(`...${additionalUrl} error`)
+      throw new Error();
     }
-    const _ = await response.json();
-    return _.genres;
+    return await response.json();
   };
 
-  static getGuestId = async function () {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/authentication/guest_session/new?${
-        this.#myApiKey
-      }`
+  static #myApiKey = 'api_key=dc70480f02792da99e54ab45abbfc5eb';
+  static #accaunt = {
+    id: '16218373',
+    name: 'Dupen',
+    password: 'LuBpMtRgc@E9m@u',
+  };
+
+  static getGenres = async function () {
+    const response = this.#baseRequestIMDB(
+      `genre/movie/list?${this.#myApiKey}`
     );
-    if (!response.ok) {
-      throw new Error("getGuestId error");
-    }
-    const _ = await response.json();
-    return _.guest_session_id;
+    return (await response).genres;
+  };
+
+  static getSessionId = async function () {
+    const requestToken = this.#baseRequestIMDB(
+      `authentication/token/new?${this.#myApiKey}`
+    );
+    const createSessionWithLogin = this.#baseRequestIMDB(
+      `authentication/token/validate_with_login?${this.#myApiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: `{
+          "username": "${this.#accaunt.name}",
+          "password": "${this.#accaunt.password}",
+          "request_token":"${(await requestToken).request_token}"
+        }`,
+      }
+    );
+    const sessionId = this.#baseRequestIMDB(
+      `authentication/session/new?${this.#myApiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: `{"request_token":"${(await createSessionWithLogin).request_token}"}`,
+      }
+    );
+    return (await sessionId).session_id;
   };
 
   static getMovies = async function (searchRequest, page) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?${
-        this.#myApiKey
-      }&page=${page}&query=${searchRequest}`
+    const response = this.#baseRequestIMDB(
+      `search/movie?${this.#myApiKey}&page=${page}&query=${searchRequest}`
     );
-    if (!response.ok) {
-      throw new Error("getMovies error");
-    }
-    return await response.json();
+    return await response;
   };
 
-  static getRatedMovies = async function (guestId) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/guest_session/${guestId}/rated/movies?${
+  static getRatedMovies = async function (sessionId, page) {
+    const response = this.#baseRequestIMDB(
+      `account/${this.#accaunt.id}/rated/movies?${
         this.#myApiKey
-      }`
+      }&session_id=${sessionId}&sort_by=created_at.asc&page=${page}`
     );
-    if (!response.ok) {
-      throw new Error("getRatedMovies error");
-    }
-    return await response.json();
+    return await response;
   };
 
-  static rateMovie = async function (guestId, movieId, number) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/rating?${
-        this.#myApiKey
-      }&guest_session_id=${guestId}`,
+  static rateMovie = async function (sessionId, movieId, number) {
+    const response = this.#baseRequestIMDB(
+      `movie/${movieId}/rating?${this.#myApiKey}&session_id=${sessionId}`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
+          'Content-Type': 'application/json;charset=utf-8',
         },
         body: `{"value":${number}}`,
       }
     );
-    if (!response.ok) {
-      throw new Error("rateMovie error");
-    }
-    return await response.json();
+    return await response;
   };
 
-  static deleteRating = async function (guestId, movieId) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/rating?${
-        this.#myApiKey
-      }&guest_session_id=${guestId}`,
+  static deleteRating = async function (sessionId, movieId) {
+    const response = this.#baseRequestIMDB(
+      `movie/${movieId}/rating?${this.#myApiKey}&session_id=${sessionId}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
+          'Content-Type': 'application/json;charset=utf-8',
         },
       }
     );
-    if (!response.ok) {
-      throw new Error("deleteRating error");
-    }
-    return await response.json();
+    return await response;
+  };
+
+  static getAccountStates = async function (sessionId, movieId) {
+    const response = this.#baseRequestIMDB(
+      `movie/${movieId}/account_states?${
+        this.#myApiKey
+      }&session_id=${sessionId}`
+    );
+    return (await response).rated.value;
   };
 }
